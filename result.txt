@@ -1,0 +1,625 @@
+episode = .................................0
+episode = .................................0
+选择的hotspot:  23     等待时间:    6
+episode = .................................0
+选择的hotspot:  23     等待时间:    6
+episode = .................................0
+选择的hotspot:  23     等待时间:    6
+选择的hotspot:  26     等待时间:    10
+sensor   7  死了  
+选择的hotspot:  35     等待时间:    10
+sensor   4  死了  
+sensor   5  死了  
+选择的hotspot:  26     等待时间:    14
+sensor   0  死了  
+sensor   2  死了  
+sensor   3  死了  
+sensor   6  死了  
+sensor   12  死了  
+sensor   14  死了  
+sensor   15  死了  
+sensor   16  死了  
+选择的hotspot:  27     等待时间:    10
+选择的hotspot:  23     等待时间:    1
+选择的hotspot:  7     等待时间:    14
+sensor   8  死了  
+sensor   11  死了  
+sensor   13  死了  
+选择的hotspot:  35     等待时间:    14
+sensor   1  死了  
+sensor   10  死了  
+选择的hotspot:  28     等待时间:    1
+选择的hotspot:  28     等待时间:    1
+选择的hotspot:  28     等待时间:    1
+选择的hotspot:  21     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  21     等待时间:    1
+sensor   9  死了  
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  31     等待时间:    2
+选择的hotspot:  21     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  21     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  21     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  23     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  17     等待时间:    5
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  29     等待时间:    2
+选择的hotspot:  41     等待时间:    1
+回合结束:    mc 移动消耗的电量     1008221.9898473234       mc 给sensor充电消耗的电量   9908.0
+总奖励:    -16.13256363354504
+episode = .................................1
+选择的hotspot:  23     等待时间:    4
+选择的hotspot:  26     等待时间:    10
+sensor   7  死了  
+选择的hotspot:  28     等待时间:    10
+sensor   4  死了  
+选择的hotspot:  28     等待时间:    9
+sensor   0  死了  
+sensor   3  死了  
+sensor   5  死了  
+sensor   6  死了  
+sensor   11  死了  
+sensor   14  死了  
+sensor   15  死了  
+选择的hotspot:  31     等待时间:    7
+sensor   2  死了  
+sensor   12  死了  
+sensor   16  死了  
+选择的hotspot:  27     等待时间:    9
+选择的hotspot:  20     等待时间:    10
+sensor   13  死了  
+选择的hotspot:  35     等待时间:    14
+sensor   1  死了  
+sensor   8  死了  
+选择的hotspot:  20     等待时间:    6
+选择的hotspot:  15     等待时间:    7
+选择的hotspot:  32     等待时间:    10
+sensor   9  死了  
+选择的hotspot:  37     等待时间:    10
+选择的hotspot:  30     等待时间:    9
+选择的hotspot:  37     等待时间:    14
+选择的hotspot:  25     等待时间:    14
+选择的hotspot:  11     等待时间:    13
+选择的hotspot:  17     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+sensor   10  死了  
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  23     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+回合结束:    mc 移动消耗的电量     628857.055304841       mc 给sensor充电消耗的电量   9832.0
+总奖励:    -16.41012251983578
+episode = .................................2
+选择的hotspot:  38     等待时间:    3
+选择的hotspot:  23     等待时间:    14
+sensor   7  死了  
+选择的hotspot:  35     等待时间:    4
+sensor   1  死了  
+sensor   4  死了  
+选择的hotspot:  11     等待时间:    6
+sensor   0  死了  
+sensor   5  死了  
+选择的hotspot:  41     等待时间:    10
+sensor   2  死了  
+sensor   3  死了  
+sensor   6  死了  
+sensor   14  死了  
+sensor   15  死了  
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  27     等待时间:    6
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  31     等待时间:    6
+选择的hotspot:  28     等待时间:    14
+sensor   11  死了  
+sensor   13  死了  
+选择的hotspot:  17     等待时间:    12
+sensor   10  死了  
+sensor   16  死了  
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  33     等待时间:    2
+选择的hotspot:  41     等待时间:    1
+sensor   9  死了  
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  14     等待时间:    7
+选择的hotspot:  41     等待时间:    2
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  21     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  14     等待时间:    11
+sensor   12  死了  
+选择的hotspot:  28     等待时间:    6
+选择的hotspot:  14     等待时间:    14
+选择的hotspot:  38     等待时间:    14
+选择的hotspot:  25     等待时间:    10
+sensor   8  死了  
+回合结束:    mc 移动消耗的电量     953246.9220762118       mc 给sensor充电消耗的电量   23218.0
+总奖励:    -15.412100870346075
+episode = .................................3
+选择的hotspot:  32     等待时间:    4
+选择的hotspot:  14     等待时间:    1
+选择的hotspot:  20     等待时间:    14
+sensor   4  死了  
+sensor   7  死了  
+选择的hotspot:  17     等待时间:    3
+选择的hotspot:  27     等待时间:    7
+sensor   5  死了  
+sensor   11  死了  
+sensor   15  死了  
+选择的hotspot:  18     等待时间:    3
+sensor   3  死了  
+sensor   6  死了  
+选择的hotspot:  17     等待时间:    4
+sensor   2  死了  
+选择的hotspot:  8     等待时间:    13
+sensor   12  死了  
+sensor   16  死了  
+选择的hotspot:  28     等待时间:    14
+sensor   0  死了  
+sensor   8  死了  
+sensor   13  死了  
+选择的hotspot:  35     等待时间:    10
+sensor   1  死了  
+选择的hotspot:  23     等待时间:    1
+选择的hotspot:  20     等待时间:    6
+sensor   10  死了  
+选择的hotspot:  37     等待时间:    3
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  8     等待时间:    3
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  10     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  37     等待时间:    8
+sensor   14  死了  
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  36     等待时间:    1
+选择的hotspot:  36     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  36     等待时间:    1
+选择的hotspot:  31     等待时间:    2
+选择的hotspot:  36     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  27     等待时间:    6
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+回合结束:    mc 移动消耗的电量     943378.160183826       mc 给sensor充电消耗的电量   20379.0
+总奖励:    -14.315204544746063
+episode = .................................4
+选择的hotspot:  33     等待时间:    3
+选择的hotspot:  23     等待时间:    14
+sensor   7  死了  
+选择的hotspot:  35     等待时间:    1
+选择的hotspot:  35     等待时间:    1
+sensor   1  死了  
+sensor   4  死了  
+选择的hotspot:  14     等待时间:    2
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  23     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+sensor   0  死了  
+sensor   5  死了  
+选择的hotspot:  41     等待时间:    5
+sensor   15  死了  
+选择的hotspot:  41     等待时间:    1
+sensor   3  死了  
+sensor   6  死了  
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+sensor   2  死了  
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+sensor   12  死了  
+sensor   16  死了  
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  38     等待时间:    1
+选择的hotspot:  38     等待时间:    1
+选择的hotspot:  38     等待时间:    1
+选择的hotspot:  28     等待时间:    2
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  14     等待时间:    3
+sensor   13  死了  
+选择的hotspot:  14     等待时间:    1
+选择的hotspot:  35     等待时间:    11
+选择的hotspot:  36     等待时间:    1
+选择的hotspot:  36     等待时间:    1
+选择的hotspot:  1     等待时间:    4
+选择的hotspot:  30     等待时间:    7
+选择的hotspot:  23     等待时间:    4
+选择的hotspot:  30     等待时间:    4
+选择的hotspot:  23     等待时间:    1
+选择的hotspot:  23     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    2
+选择的hotspot:  23     等待时间:    1
+回合结束:    mc 移动消耗的电量     1007258.7346626001       mc 给sensor充电消耗的电量   39413.0
+总奖励:    -8.516239672518896
+episode = .................................5
+选择的hotspot:  11     等待时间:    1
+选择的hotspot:  28     等待时间:    3
+选择的hotspot:  7     等待时间:    1
+选择的hotspot:  26     等待时间:    10
+sensor   7  死了  
+选择的hotspot:  28     等待时间:    14
+sensor   0  死了  
+sensor   4  死了  
+sensor   5  死了  
+sensor   14  死了  
+sensor   15  死了  
+选择的hotspot:  30     等待时间:    14
+sensor   2  死了  
+sensor   3  死了  
+sensor   6  死了  
+sensor   12  死了  
+选择的hotspot:  34     等待时间:    14
+sensor  16  死了  
+sensor   13  死了  
+选择的hotspot:  35     等待时间:    14
+sensor   1  死了  
+sensor   8  死了  
+选择的hotspot:  38     等待时间:    10
+sensor   11  死了  
+选择的hotspot:  28     等待时间:    1
+选择的hotspot:  28     等待时间:    1
+选择的hotspot:  14     等待时间:    1
+选择的hotspot:  3     等待时间:    1
+sensor   9  死了  
+选择的hotspot:  3     等待时间:    1
+选择的hotspot:  18     等待时间:    1
+选择的hotspot:  25     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  19     等待时间:    1
+选择的hotspot:  9     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  18     等待时间:    2
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  41     等待时间:    1
+选择的hotspot:  18     等待时间:    2
+回合结束:    mc 移动消耗的电量     1013718.6309619162       mc 给sensor充电消耗的电量   16488.0
+总奖励:    -15.094184947465369
+episode = .................................6
+选择的hotspot:  37     等待时间:    5
+选择的hotspot:  28     等待时间:    1
+选择的hotspot:  28     等待时间:    1
+选择的hotspot:  28     等待时间:    1
+选择的hotspot:  28     等待时间:    1
+选择的hotspot:  28     等待时间:    1
+选择的hotspot:  28     等待时间:    1
+sensor   7  死了  
+选择的hotspot:  28     等待时间:    1
+选择的hotspot:  14     等待时间:    1
+选择的hotspot:  28     等待时间:    1
+选择的hotspot:  28     等待时间:    1
+选择的hotspot:  28     等待时间:    1
+选择的hotspot:  28     等待时间:    1
+选择的hotspot:  28     等待时间:    1
+sensor   4  死了  
+选择的hotspot:  14     等待时间:    2
+选择的hotspot:  27     等待时间:    7
+sensor   0  死了  
+sensor   5  死了  
+sensor   15  死了  
+选择的hotspot:  31     等待时间:    4
+选择的hotspot:  28     等待时间:    1
+sensor  3  死了  
+sensor   2  死了  
+选择的hotspot:  8     等待时间:    11
+sensor   12  死了  
+sensor   16  死了  
+选择的hotspot:  9     等待时间:    3
+选择的hotspot:  28     等待时间:    2
+选择的hotspot:  28     等待时间:    1
+选择的hotspot:  28     等待时间:    1
+选择的hotspot:  28     等待时间:    2
+选择的hotspot:  9     等待时间:    5
+选择的hotspot:  27     等待时间:    6
+sensor   6  死了  
+sensor   8  死了  
+sensor   11  死了  
+选择的hotspot:  28     等待时间:    3
+sensor   1  死了  
+选择的hotspot:  32     等待时间:    4
+选择的hotspot:  31     等待时间:    4
+sensor   10  死了  
+选择的hotspot:  28     等待时间:    1
+选择的hotspot:  30     等待时间:    4
+选择的hotspot:  32     等待时间:    2
+sensor   9  死了  
+选择的hotspot:  24     等待时间:    1
+选择的hotspot:  11     等待时间:    1
+选择的hotspot:  11     等待时间:    1
+选择的hotspot:  11     等待时间:    1
+选择的hotspot:  11     等待时间:    1
+选择的hotspot:  11     等待时间:    1
+选择的hotspot:  7     等待时间:    1
+选择的hotspot:  7     等待时间:    1
+选择的hotspot:  28     等待时间:    1
+选择的hotspot:  28     等待时间:    1
+选择的hotspot:  28     等待时间:    1
+选择的hotspot:  28     等待时间:    1
+选择的hotspot:  28     等待时间:    1
+选择的hotspot:  28     等待时间:    1
+选择的hotspot:  28     等待时间:    1
+选择的hotspot:  28     等待时间:    1
+选择的hotspot:  28     等待时间:    1
+选择的hotspot:  28     等待时间:    1
+选择的hotspot:  28     等待时间:    1
+选择的hotspot:  11     等待时间:    1
+sensor   14  死了  
+选择的hotspot:  11     等待时间:    1
+选择的hotspot:  11     等待时间:    1
+选择的hotspot:  11     等待时间:    1
+选择的hotspot:  7     等待时间:    1
+选择的hotspot:  11     等待时间:    1
+回合结束:    mc 移动消耗的电量     991608.809227802       mc 给sensor充电消耗的电量   25638.5
+总奖励:    -13.740635294870945
+episode = .................................7
+选择的hotspot:  38     等待时间:    3
+选择的hotspot:  23     等待时间:    12
+sensor   7  死了  
+选择的hotspot:  17     等待时间:    1
+选择的hotspot:  35     等待时间:    1
+选择的hotspot:  28     等待时间:    1
+选择的hotspot:  22     等待时间:    1
+sensor   1  死了  
+sensor   4  死了  
+选择的hotspot:  17     等待时间:    1
+选择的hotspot:  11     等待时间:    1
+选择的hotspot:  17     等待时间:    2
+选择的hotspot:  17     等待时间:    3
+sensor   0  死了  
+sensor   5  死了  
+选择的hotspot:  17     等待时间:    4
+选择的hotspot:  17     等待时间:    3
+sensor   3  死了  
+sensor   6  死了  
+选择的hotspot:  15     等待时间:    6
+sensor   2  死了  
+选择的hotspot:  15     等待时间:    4
+选择的hotspot:  34     等待时间:    14
+sensor   13  死了  
+选择的hotspot:  35     等待时间:    14
+sensor   8  死了  
+sensor   11  死了  
+sensor   15  死了  
+sensor   16  死了  
+选择的hotspot:  38     等待时间:    10
+选择的hotspot:  15     等待时间:    14
+sensor   9  死了  
+选择的hotspot:  37     等待时间:    3
+选择的hotspot:  35     等待时间:    14
+选择的hotspot:  37     等待时间:    14
+sensor   12  死了  
+sensor   14  死了  
+选择的hotspot:  25     等待时间:    14
+选择的hotspot:  11     等待时间:    14
+选择的hotspot:  25     等待时间:    10
+sensor   10  死了  
+回合结束:    mc 移动消耗的电量     685639.2846198975       mc 给sensor充电消耗的电量   31390.0
+总奖励:    -14.644089854546998
+episode = .................................8
+选择的hotspot:  32     等待时间:    5
+选择的hotspot:  20     等待时间:    14
+sensor   4  死了  
+sensor   7  死了  
+选择的hotspot:  11     等待时间:    8
+sensor   0  死了  
+sensor   5  死了  
+sensor   11  死了  
+选择的hotspot:  30     等待时间:    14
+sensor   2  死了  
+sensor   3  死了  
+sensor   6  死了  
+sensor   15  死了  
+选择的hotspot:  30     等待时间:    1
+选择的hotspot:  17     等待时间:    4
+选择的hotspot:  37     等待时间:    1
+选择的hotspot:  20     等待时间:    8
+选择的hotspot:  14     等待时间:    6
+sensor   13  死了  
+选择的hotspot:  14     等待时间:    8
+sensor   1  死了  
+sensor   8  死了  
+sensor   16  死了  
+选择的hotspot:  41     等待时间:    7
+选择的hotspot:  25     等待时间:    9
+sensor   9  死了  
+选择的hotspot:  32     等待时间:    10
+选择的hotspot:  37     等待时间:    10
+选择的hotspot:  14     等待时间:    14
+sensor   12  死了  
+sensor   14  死了  
+选择的hotspot:  26     等待时间:    14
+选择的hotspot:  15     等待时间:    10
+选择的hotspot:  11     等待时间:    14
+选择的hotspot:  30     等待时间:    5
+回合结束:    mc 移动消耗的电量     706823.005735665       mc 给sensor充电消耗的电量   24339.5
+总奖励:    -14.204888682015065
+episode = .................................9
+选择的hotspot:  26     等待时间:    4
+选择的hotspot:  20     等待时间:    1
+选择的hotspot:  17     等待时间:    1
+选择的hotspot:  7     等待时间:    1
+选择的hotspot:  7     等待时间:    7
+sensor   7  死了  
+选择的hotspot:  25     等待时间:    5
+sensor   1  死了  
+sensor   4  死了  
+选择的hotspot:  33     等待时间:    2
+选择的hotspot:  11     等待时间:    8
+sensor   0  死了  
+sensor   11  死了  
+sensor   15  死了  
+选择的hotspot:  15     等待时间:    6
+sensor  14  死了  
+sensor   2  死了  
+选择的hotspot:  4     等待时间:    1
+选择的hotspot:  5     等待时间:    1
+选择的hotspot:  28     等待时间:    1
+sensor   6  死了  
+选择的hotspot:  18     等待时间:    1
+选择的hotspot:  18     等待时间:    1
+选择的hotspot:  28     等待时间:    1
+选择的hotspot:  18     等待时间:    1
+选择的hotspot:  28     等待时间:    1
+选择的hotspot:  25     等待时间:    1
+选择的hotspot:  5     等待时间:    1
+选择的hotspot:  13     等待时间:    3
+选择的hotspot:  28     等待时间:    9
+选择的hotspot:  7     等待时间:    9
+sensor   8  死了  
+选择的hotspot:  41     等待时间:    7
+sensor   3  死了  
+选择的hotspot:  25     等待时间:    9
+sensor   5  死了  
+sensor   9  死了  
+选择的hotspot:  9     等待时间:    1
+选择的hotspot:  9     等待时间:    1
+选择的hotspot:  32     等待时间:    1
+选择的hotspot:  20     等待时间:    1
+选择的hotspot:  37     等待时间:    10
+回合结束:    mc 移动消耗的电量     1023344.3667611827       mc 给sensor充电消耗的电量   37624.0
+总奖励:    -10.326320593037762
+episode = .................................10
+选择的hotspot:  30     等待时间:    1
+选择的hotspot:  7     等待时间:    1
+选择的hotspot:  32     等待时间:    13
+sensor   7  死了  
+选择的hotspot:  28     等待时间:    14
+sensor   0  死了  
+sensor   4  死了  
+sensor   5  死了  
+sensor   14  死了  
+sensor   15  死了  
+选择的hotspot:  32     等待时间:    4
+sensor   2  死了  
+选择的hotspot:  7     等待时间:    14
+sensor  3  死了  
+sensor   6  死了  
+sensor   12  死了  
+sensor   16  死了  
+选择的hotspot:  32     等待时间:    7
+选择的hotspot:  9     等待时间:    7
+sensor   13  死了  
+选择的hotspot:  7     等待时间:    5
+sensor   1  死了  
+选择的hotspot:  18     等待时间:    2
+选择的hotspot:  3     等待时间:    2
+选择的hotspot:  31     等待时间:    4
+sensor   10  死了  
+选择的hotspot:  31     等待时间:    1
+选择的hotspot:  41     等待时间:    3
+选择的hotspot:  31     等待时间:    2
+选择的hotspot:  15     等待时间:    14
+sensor   9  死了  
+选择的hotspot:  32     等待时间:    1
+选择的hotspot:  37     等待时间:    10
+选择的hotspot:  14     等待时间:    14
+sensor   8  死了  
+sensor   11  死了  
+选择的hotspot:  14     等待时间:    11
+选择的hotspot:  35     等待时间:    14
+选择的hotspot:  7     等待时间:    5
+选择的hotspot:  17     等待时间:    6
+选择的hotspot:  41     等待时间:    12
+回合结束:    mc 移动消耗的电量     853434.5360185353       mc 给sensor充电消耗的电量   22114.0
+总奖励:    -14.833516854315297
+episode = .................................11
+选择的hotspot:  23     等待时间:    12
+sensor   7  死了  
+选择的hotspot:  9     等待时间:    3
+选择的hotspot:  28     等待时间:    10
+sensor   1  死了  
+sensor   4  死了  
+sensor   11  死了  
+选择的hotspot:  26     等待时间:    14
+sensor   0  死了  
+sensor   2  死了  
+sensor   3  死了  
+sensor   5  死了  
+sensor   12  死了  
+sensor   14  死了  
+sensor   15  死了  
+sensor   16  死了  
+选择的hotspot:  27     等待时间:    10
+sensor   6  死了  
