@@ -5,9 +5,9 @@ from RL_brain_modified import DeepQNetwork
 def run_maze():
     step = 0
     for episode in range(4000):
-        print('episode = .................................', episode)
+        print('episode .....................................', episode)
         with open('result.txt', 'a') as res:
-            res.write('episode = .................................' + str(episode) + '\n')
+            res.write('episode .................................' + str(episode) + '\n')
         total_reward = 0
         # initial observation
         init = True
