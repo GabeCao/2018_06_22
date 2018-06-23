@@ -59,6 +59,8 @@ class DeepQNetwork:
         self.cost_his = []
 
         # ################从这开始都是新添加的属性###############################
+        # 保存训练结果
+        self.saver = tf.train.Saver(max_to_keep=4, keep_checkpoint_every_n_hours=0.3)
         # 对 42个hotspot 进行独热编码
         self.hotspots_num = [str(i) for i in range(1, 43)]
         self.hotspot_num_one_hot_encoded_label_binarizer = LabelBinarizer()
@@ -120,18 +122,18 @@ class DeepQNetwork:
 
             # first layer. collections is used later when assign to target net
             with tf.variable_scope('l1'):
-                w1 = tf.get_variable('w1', [self.n_features, 390], initializer=w_initializer, collections=c_names)
-                b1 = tf.get_variable('b1', [1, 390], initializer=b_initializer, collections=c_names)
+                w1 = tf.get_variable('w1', [self.n_features, 106], initializer=w_initializer, collections=c_names)
+                b1 = tf.get_variable('b1', [1, 106], initializer=b_initializer, collections=c_names)
                 l1 = tf.nn.relu(tf.matmul(self.s, w1) + b1)
 
             with tf.variable_scope('l2'):
-                w2 = tf.get_variable('w2', [390, 390], initializer=w_initializer, collections=c_names)
-                b2 = tf.get_variable('b2', [1, 390], initializer=b_initializer, collections=c_names)
+                w2 = tf.get_variable('w2', [106, 106], initializer=w_initializer, collections=c_names)
+                b2 = tf.get_variable('b2', [1, 106], initializer=b_initializer, collections=c_names)
                 l2 = tf.nn.relu(tf.matmul(l1, w2) + b2)
 
             # second layer. collections is used later when assign to target net
             with tf.variable_scope('l3'):
-                w3 = tf.get_variable('w3', [390, self.n_actions], initializer=w_initializer, collections=c_names)
+                w3 = tf.get_variable('w3', [106, self.n_actions], initializer=w_initializer, collections=c_names)
                 b3 = tf.get_variable('b3', [1, self.n_actions], initializer=b_initializer, collections=c_names)
                 self.q_eval = tf.matmul(l2, w3) + b3
 
@@ -148,18 +150,18 @@ class DeepQNetwork:
 
             # first layer. collections is used later when assign to target net
             with tf.variable_scope('l1'):
-                w1 = tf.get_variable('w1', [self.n_features, 390], initializer=w_initializer, collections=c_names)
-                b1 = tf.get_variable('b1', [1, 390], initializer=b_initializer, collections=c_names)
+                w1 = tf.get_variable('w1', [self.n_features, 106], initializer=w_initializer, collections=c_names)
+                b1 = tf.get_variable('b1', [1, 106], initializer=b_initializer, collections=c_names)
                 l1 = tf.nn.relu(tf.matmul(self.s_, w1) + b1)
 
             with tf.variable_scope('l2'):
-                w2 = tf.get_variable('w2', [390, 390], initializer=w_initializer, collections=c_names)
-                b2 = tf.get_variable('b2', [1, 390], initializer=b_initializer, collections=c_names)
+                w2 = tf.get_variable('w2', [106, 106], initializer=w_initializer, collections=c_names)
+                b2 = tf.get_variable('b2', [1, 106], initializer=b_initializer, collections=c_names)
                 l2 = tf.nn.relu(tf.matmul(l1, w2) + b2)
 
             # second layer. collections is used later when assign to target net
             with tf.variable_scope('l3'):
-                w3 = tf.get_variable('w3', [390, self.n_actions], initializer=w_initializer, collections=c_names)
+                w3 = tf.get_variable('w3', [106, self.n_actions], initializer=w_initializer, collections=c_names)
                 b3 = tf.get_variable('b3', [1, self.n_actions], initializer=b_initializer, collections=c_names)
                 self.q_next = tf.matmul(l2, w3) + b3
 
@@ -514,13 +516,14 @@ class DeepQNetwork:
         _, self.cost = self.sess.run([self._train_op, self.loss],
                                      feed_dict={self.s: q_eval_all_action_state,
                                                 self.q_target: q_target})
-
+        self.saver.save(self.sess, './checkpoint_dir/MyModel')
         # self.cost_his.append(self.cost)
         # print('self.cost', self.cost)
         # increasing epsilon
         self.epsilon = self.epsilon + self.epsilon_increment if self.epsilon < self.epsilon_max else self.epsilon_max
         self.learn_step_counter += 1
         print('learning ......', self.learn_step_counter, '    times')
+
     def plot_cost(self):
         import matplotlib.pyplot as plt
         plt.plot(np.arange(len(self.cost_his)), self.cost_his)

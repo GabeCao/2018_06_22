@@ -43,6 +43,9 @@ class Env:
         self.mc_charging_energy_consumption = 0
         # 充电惩罚值
         self.charging_penalty = -1
+        # 最近一次mc 移动和给sensor充电花费的能量，因为在charging trajectory 中，最后一次不能算作在 trajectory中
+        self.last_time_mc_move_energy_consumption = 0
+        self.last_time_mc_charging_energy_consumption = 0
 
     def set_sensors_mobile_charger(self):
         # [0.7 * 6 * 1000, 0.6, 0, True]  依次代表：上一次充电后的剩余能量，能量消耗的速率，上一次充电的时间，
@@ -138,6 +141,7 @@ class Env:
         self.current_hotspot = hotspot
         # 更新mc 移动消耗的能量
         self.mc_move_energy_consumption += self.sensors_mobile_charger['MC'][1] * distance
+        self.last_time_mc_move_energy_consumption = self.sensors_mobile_charger['MC'][1] * distance
         # 更新mc的剩余能量，减去移动消耗的能量
         self.sensors_mobile_charger['MC'][0] = self.sensors_mobile_charger['MC'][0] \
                                                - self.sensors_mobile_charger['MC'][1] * distance
@@ -273,25 +277,11 @@ class Env:
                             # 如果剩余寿命大于两个小时
                             if rl >= 2 * 3600:
                                 reward += 0
-                                # 得到 大于阈值的 独热编码,转换成list,然后更新state 中的能量状态
-                                rl_one_hot_encoded = \
-                                    self.rl_label_binarizer.transform(['Greater than the threshold value, 0']).tolist()[
-                                        0]
-                                start = 84 + i * 4
-                                end = start + 2
-                                rl_i = 0
-                                while start <= end:
-                                    self.state[start] = rl_one_hot_encoded[rl_i]
-                                    rl_i += 1
-                                    start += 1
-                                # 更新是否属于 state中 的 是否属于hotspot 的信息
-                                # 通过belong 找到对应的 独热编码，转换成list,因为这个独热编码只有一位，所以取第一位得到结果
-                                belong_one_hot_encoded = self.belong_label_binarizer.transform([belong]).tolist()[0][0]
-                                self.state[start] = belong_one_hot_encoded
                             # 如果剩余寿命在0 到 两个小时
                             elif 0 < rl < 2 * 3600:
                                 # 更新mc 的sensor充的电量
                                 self.mc_charging_energy_consumption += 6 * 1000 - sensor_reserved_energy
+                                self.last_time_mc_charging_energy_consumption = 6 * 1000 - sensor_reserved_energy
                                 # mc 给该sensor充电， 充电后更新剩余能量
                                 self.sensors_mobile_charger['MC'][0] = self.sensors_mobile_charger['MC'][0] \
                                                                        - (6 * 1000 - sensor_reserved_energy)
@@ -301,54 +291,95 @@ class Env:
                                 sensor[2] = point_time
                                 # sensor 被充电了
                                 sensor[4] = True
-                                # 更新state中 的剩余寿命信息的状态
-                                # 得到 大于阈值的 独热编码,转换成list,然后更新state 中的状态
-                                rl_one_hot_encoded = self.rl_label_binarizer.transform(['Greater than the threshold value, 0']).tolist()[0]
-                                start = 84 + i * 4
-                                end = start + 2
-                                rl_i = 0
-                                while start <= end:
-                                    a = rl_one_hot_encoded[rl_i]
-                                    self.state[start] = a
-                                    rl_i += 1
-                                    start += 1
-                                # 更新是否属于 state中 的 是否属于hotspot 的信息
-                                # 通过belong 找到对应的 独热编码，转换成list,因为这个独热编码只有一位，所以取第一位得到结果
-                                belong_one_hot_encoded = self.belong_label_binarizer.transform([belong]).tolist()[0][0]
-                                self.state[start] = belong_one_hot_encoded
                                 # 加上得到的奖励,需要先将 rl 的单位先转化成小时
                                 rl = rl / 3600
                                 reward += math.exp(-rl)
                             else:
-                                # sensor 能量小于0，在到达hotspot前就死掉了
-                                # 更新state中 的剩余寿命信息的状态
-                                # 得到 死掉的 独热编码,转换成list,然后更新state 中的状态
-                                rl_one_hot_encoded = self.rl_label_binarizer.transform(['dead, -1']) \
-                                    .tolist()[0]
-                                start = 84 + i * 4
-                                end = start + 2
-                                rl_i = 0
-                                while start <= end:
-                                    a = rl_one_hot_encoded[rl_i]
-                                    self.state[start] = a
-                                    rl_i += 1
-                                    start += 1
-                                # 更新是否属于 state中 的 是否属于hotspot 的信息
-                                # 通过belong 找到对应的 独热编码，转换成list,因为这个独热编码只有一位，所以取第一位得到结果
-                                belong_one_hot_encoded = self.belong_label_binarizer.transform([belong]).tolist()[0][0]
-                                self.state[start] = belong_one_hot_encoded
+                                # 如果是第一次死
                                 if sensor[3] is True:
                                     sensor[3] = False
                                     reward += self.charging_penalty
                                     with open('result.txt', 'a') as res:
                                         res.write('sensor   ' + str(i) + '  死了  ' + '\n')
-        
+
+                # 取出sensor
+                sensor = self.sensors_mobile_charger[str(i)]
+                # 上一次充电后的电量
+                sensor_energy_after_last_time_charging = sensor[0]
+                # 当前sensor 电量消耗的速率
+                sensor_consumption_ratio = sensor[1]
+                # 上一次的充电时间
+                previous_charging_time = sensor[2]
+                # 在mc等待了action 中的等待时间以后，sensor 的剩余电量
+                sensor_reserved_energy = sensor_energy_after_last_time_charging - \
+                                         (end_wait_seconds - previous_charging_time) * sensor_consumption_ratio
+                # 当前sensor 的剩余寿命
+                rl = sensor_reserved_energy / sensor_consumption_ratio
+
+                # 如果剩余寿命大于两个小时
+                if rl >= 2 * 3600:
+                    # 得到 大于阈值的 独热编码,转换成list,然后更新state 中的能量状态
+                    rl_one_hot_encoded = self.rl_label_binarizer.transform(['Greater than the threshold value, 0']).tolist()[0]
+                    start = 84 + i * 4
+                    end = start + 2
+                    rl_i = 0
+                    while start <= end:
+                        self.state[start] = rl_one_hot_encoded[rl_i]
+                        rl_i += 1
+                        start += 1
+                        # 更新是否属于 state中 的 是否属于hotspot 的信息
+                        # 通过belong 找到对应的 独热编码，转换成list,因为这个独热编码只有一位，所以取第一位得到结果
+                    belong_one_hot_encoded = self.belong_label_binarizer.transform([belong]).tolist()[0][0]
+                    self.state[start] = belong_one_hot_encoded
+                elif 0 < rl < 2 * 3600:
+                    # 更新state中 的剩余寿命信息的状态
+                    # 得到 小于阈值的 独热编码,转换成list,然后更新state 中的状态
+                    rl_one_hot_encoded = \
+                        self.rl_label_binarizer.transform(['Smaller than the threshold value, 1']).tolist()[0]
+                    start = 84 + i * 4
+                    end = start + 2
+                    rl_i = 0
+                    while start <= end:
+                        a = rl_one_hot_encoded[rl_i]
+                        self.state[start] = a
+                        rl_i += 1
+                        start += 1
+                    # 更新是否属于 state中 的 是否属于hotspot 的信息
+                    # 通过belong 找到对应的 独热编码，转换成list,因为这个独热编码只有一位，所以取第一位得到结果
+                    belong_one_hot_encoded = self.belong_label_binarizer.transform([belong]).tolist()[0][0]
+                    self.state[start] = belong_one_hot_encoded
+                else:
+                    # 更新state中 的剩余寿命信息的状态
+                    # 得到 死掉的 独热编码,转换成list,然后更新state 中的状态
+                    rl_one_hot_encoded = self.rl_label_binarizer.transform(['dead, -1']) \
+                        .tolist()[0]
+                    start = 84 + i * 4
+                    end = start + 2
+                    rl_i = 0
+                    while start <= end:
+                        a = rl_one_hot_encoded[rl_i]
+                        self.state[start] = a
+                        rl_i += 1
+                        start += 1
+                    # 更新是否属于 state中 的 是否属于hotspot 的信息
+                    # 通过belong 找到对应的 独热编码，转换成list,因为这个独热编码只有一位，所以取第一位得到结果
+                    belong_one_hot_encoded = self.belong_label_binarizer.transform([belong]).tolist()[0][0]
+                    self.state[start] = belong_one_hot_encoded
+                    if sensor[3]:
+                        sensor[3] = False
+                        reward += self.charging_penalty
+                        with open('result.txt', 'a') as res:
+                            res.write('sensor   ' + str(i) + '  死了  ' + '\n')
+
         phase = int(end_wait_seconds / 1200) + 1
         # mc 给到达的sensor 充电后，如果能量为负或者 self.get_evn_time() > self.one_episode_time，则回合结束，反之继续
         if self.sensors_mobile_charger['MC'][0] <= 0 or self.get_evn_time() > self.one_episode_time:
             with open('result.txt', 'a') as res:
-                res.write('回合结束:    ' + 'mc 移动消耗的电量     ' + str(self.mc_move_energy_consumption)
-                          + '       mc 给sensor充电消耗的电量   ' + str(self.mc_charging_energy_consumption) + '\n')
+                res.write('回合结束:    ' + 'mc 移动消耗的电量     '
+                          + str(self.mc_move_energy_consumption - self.last_time_mc_move_energy_consumption)
+                          + '       mc 给sensor充电消耗的电量   '
+                          + str(self.mc_charging_energy_consumption - self.last_time_mc_charging_energy_consumption)
+                          + '\n')
             done = True
         else:
             done = False

@@ -26,6 +26,7 @@ def run_maze():
             observation_, reward, done, phase = env.step(action)
   
             total_reward += reward
+            last_reward = reward
             RL.store_transition(observation, action, reward, done, phase, observation_)
             if (step > 200) and (step % 5 == 0):
                 RL.learn()
@@ -35,12 +36,12 @@ def run_maze():
             episode_step += 1
             # break while loop when end of this episode
             if done:
-                print('total reward         ', total_reward)
+                print('total reward         ', total_reward - last_reward)
                 with open('result.txt', 'a') as res:
-                    res.write('总奖励:    ' + str(total_reward) + '\n')
+                    res.write('总奖励:    ' + str(total_reward - last_reward) + '\n')
 
                 with open('reward.txt', 'a') as rwa:
-                    rwa.write(str(episode) + ',' + str(total_reward) + '\n')
+                    rwa.write(str(episode) + ',' + str(total_reward - last_reward) + '\n')
 
                 with open('energy.txt', 'a') as ene:
                     ene.write(str(episode) + ',' + str(env.mc_move_energy_consumption) + ','
