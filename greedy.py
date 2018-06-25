@@ -2,6 +2,8 @@ from Hotspot import Hotspot
 import math
 from Point import Point
 import datetime
+
+
 class Greedy:
     def __init__(self):
         # sensor 和 mc的能量信息
@@ -29,6 +31,8 @@ class Greedy:
         self.mc_charging_energy_consumption = 0
         # 充电惩罚值
         self.charging_penalty = -1
+        # 记录一次循环获得的reward
+        self.current_reward = 0
 
         self.out_put_file = 'C:/E/dataSet/2018-06-20/greedy.txt'
 
@@ -100,9 +104,9 @@ class Greedy:
     # 计算在hotspot_num 等待 stay_time 时间，碰到sensor_num 的概率
     # current_slot 当前时间段，计算在当前时间段总共sensor来了几次
     def probability_T(self, current_slot, staying_time, sensor_num, hotspot_num):
-        t = 5 / 60
-        start_seconds = (current_slot - 8) * 3600
-        end_seconds = start_seconds + 3600
+        t = 5 / 20
+        start_seconds = int(current_slot - 1) * 1200
+        end_seconds = start_seconds + 1200
         hotspot = self.find_hotspot_by_num(hotspot_num)
 
         # sensor 整个时间段到达 hotpsot 的次数
@@ -114,7 +118,7 @@ class Greedy:
                 point = Point(float(line[0]), float(line[1]), line[2])
                 point_time = self.str_to_seconds(point.get_time())
 
-                if start_seconds <= point_time <= end_seconds and point.get_distance_between_point_and_hotspot(hotspot):
+                if start_seconds <= point_time <= end_seconds and point.get_distance_between_point_and_hotspot(hotspot) < 60:
                     arrived_times += 1
         return 1 - (math.pow(arrived_times * staying_time * t, 0) * (math.exp(-arrived_times * staying_time * t))) / 1
 

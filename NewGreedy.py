@@ -1,6 +1,7 @@
 from Hotspot import Hotspot
 import math
 from Point import Point
+import sys
 
 
 class NewGreedy:
@@ -112,8 +113,7 @@ class NewGreedy:
                 if start_seconds <= point_time <= end_seconds and point.get_distance_between_point_and_hotspot(
                         hotspot) < 60:
                     arrived_times += 1
-        return 1 - (math.pow(arrived_times * staying_time * t, 0) * (
-            math.exp(-arrived_times * staying_time * t))) / 1
+        return 1 - (math.pow(arrived_times * staying_time * t, 0) * (math.exp(-arrived_times * staying_time * t))) / 1
 
     def initial_is_charged(self):
         for key, value in self.sensors_mobile_charger.items():
@@ -193,7 +193,8 @@ class NewGreedy:
                         rl = sensor_reserved_energy / sensor_consumption_ratio
                         # 如果剩余寿命大于两个小时
                         if rl >= 2 * 3600:
-                            break
+                            self.reward += 0
+                            current_reward += 0
                         # 如果剩余寿命在0 到 两个小时
                         elif 0 < rl < 2 * 3600:
                             # mc 给该sensor充电， 充电后更新剩余能量
@@ -228,7 +229,7 @@ class NewGreedy:
             # 在当前时间段选择带来最大reward 的action
             # max_chose_reward 和 max_chose_action 暂存最大的reward 和 对应的 action
             print('choosing action ...........')
-            max_chose_reward = 0
+            max_chose_reward = -sys.maxsize - 1
             max_chose_action = None
             for line in f:
                 print('testing every action ............')
@@ -274,7 +275,7 @@ class NewGreedy:
                                 rl = sensor_reserved_energy / sensor_consumption_ratio
                                 # 如果剩余寿命大于两个小时
                                 if rl >= 2 * 3600:
-                                    break
+                                    chose_reward += 0
                                 # 如果剩余寿命在0 到 两个小时
                                 elif 0 < rl < 2 * 3600:
                                     # 加上得到的奖励,需要先将 rl 的单位先转化成小时
@@ -289,10 +290,6 @@ class NewGreedy:
                 if chose_reward > max_chose_reward:
                     max_chose_reward = chose_reward
                     max_chose_action = chose_action
-            # 如果所有的action 的reward都是0，则在当前hotspot继续等待五分钟
-            if max_chose_action is None:
-                max_chose_action = str(self.current_hotspot.get_num()) + ',1'
-
             return max_chose_action
 
     #  传入一个action_list，执行所有的action，然后选择得到最大的reward的action执行，直到结束
@@ -374,3 +371,14 @@ class NewGreedy:
                     max_chose_action = str(self.current_hotspot.get_num()) + ',1'
 
             self.one_step(max_chose_action)
+
+
+if __name__ == '__main__':
+    rl_actions = []
+
+    with open('rl actions.txt', 'r') as f:
+        for line in f:
+            line = line.strip()
+            rl_actions.append(line)
+    file = open('C:/Users/lv/Desktop/newgreedy.txt', 'a')
+    for i in range(len(rl_actions)):
