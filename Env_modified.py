@@ -46,6 +46,8 @@ class Env:
         # 最近一次mc 移动和给sensor充电花费的能量，因为在charging trajectory 中，最后一次不能算作在 trajectory中
         self.last_time_mc_move_energy_consumption = 0
         self.last_time_mc_charging_energy_consumption = 0
+        # 在当前hotspot 遇到的sensor有哪些
+        self.hotspot_sensors = []
 
     def set_sensors_mobile_charger(self):
         # [0.7 * 6 * 1000, 0.6, 0, True]  依次代表：上一次充电后的剩余能量，能量消耗的速率，上一次充电的时间，
@@ -98,6 +100,7 @@ class Env:
         reward = 0
         self.last_time_mc_move_energy_consumption = 0
         self.last_time_mc_charging_energy_consumption = 0
+        self.hotspot_sensors = []
         # action 的 表示形如 43,1 表示到43 号hotspot 等待1个t
         # action = action.split(',')
         # 得到hotspot 的编号
@@ -109,6 +112,8 @@ class Env:
         # 当前方法用不上
         hotspot_num = action[0]
         staying_time = action[1]
+        # string 表示action，写到文件时使用
+        str_action = str(hotspot_num) + ',' + str(staying_time)
 
         # 得到下一个hotspot
         hotspot = self.find_hotspot_by_num(hotspot_num)
@@ -134,8 +139,8 @@ class Env:
                 value[3] = False
                 reward += self.charging_penalty
                 with open('result.txt', 'a') as res:
-                    res.write('sensor  ' + key + '  死了  ' + '\n')
-                print('sensor   ' + key + '  死了  ')
+                    res.write('mc 刚到达 sensor  ' + key + '  死了    action: ' + str_action + '\n')
+                print('mc 刚到达 sensor   ' + key + '  死了      action: ' + str_action)
         # 更新self.current_hotspot 为 action 中选择的 hotspot
         self.current_hotspot = hotspot
         # 更新mc 移动消耗的能量
@@ -243,7 +248,7 @@ class Env:
                         sensor[3] = False
                         reward += self.charging_penalty
                         with open('result.txt', 'a') as res:
-                            res.write('sensor   ' + str(i) + '  死了  ' + '\n')
+                            res.write('mc 离开 sensor时   ' + str(i) + '  死了    action: ' + str_action + '\n')
 
             else:
                 # times不等于0 的情况下，sensor可能会过来
@@ -264,6 +269,7 @@ class Env:
                         # 如果第 i 个sensor的轨迹点的时间 小于end_wait_seconds且大于start_wait_seconds，
                         # 同时轨迹点和hotspot 的距离小于60，则到达该hotspot
                         if (start_wait_seconds <= point_time <= end_wait_seconds) and (point.get_distance_between_point_and_hotspot(self.current_hotspot) < 60):
+
                             # 取出sensor
                             sensor = self.sensors_mobile_charger[str(i)]
                             # 上一次充电后的电量
@@ -282,6 +288,7 @@ class Env:
                                 reward += 0
                             # 如果剩余寿命在0 到 两个小时
                             elif 0 < rl < 2 * 3600:
+
                                 # 更新mc 的sensor充的电量
                                 self.mc_charging_energy_consumption += 6 * 1000 - sensor_reserved_energy
                                 self.last_time_mc_charging_energy_consumption += 6 * 1000 - sensor_reserved_energy
@@ -297,13 +304,15 @@ class Env:
                                 # 加上得到的奖励,需要先将 rl 的单位先转化成小时
                                 rl = rl / 3600
                                 reward += math.exp(-rl)
+                                self.hotspot_sensors.append(str(i))
+                                self.hotspot_sensors.append(math.exp(-rl))
                             else:
                                 # 如果是第一次死，然后直接跳出循环
                                 if sensor[3] is True:
                                     sensor[3] = False
                                     reward += self.charging_penalty
                                     with open('result.txt', 'a') as res:
-                                        res.write('sensor   ' + str(i) + '  死了  ' + '\n')
+                                        res.write('mc 等待sensor时   ' + str(i) + '  死了    action: ' + str_action + '\n')
                                     break
 
                 # 取出sensor
@@ -373,7 +382,7 @@ class Env:
                         sensor[3] = False
                         reward += self.charging_penalty
                         with open('result.txt', 'a') as res:
-                            res.write('sensor   ' + str(i) + '  死了  ' + '\n')
+                            res.write('mc 离开sensor时   ' + str(i) + '  死了    action: ' + str_action + '\n')
 
         phase = int(end_wait_seconds / 1200) + 1
         # mc 给到达的sensor 充电后，如果能量为负或者 self.get_evn_time() > self.one_episode_time，则回合结束，反之继续
@@ -390,9 +399,11 @@ class Env:
 
         observation = np.array(self.state)
         with open('result.txt', 'a') as res:
-            res.write('选择的hotspot:  ' + str(hotspot_num) + '     等待时间:    ' + str(staying_time)
-                      + '       得到的reward:      ' + str(reward) + ' 执行action后的时间：  '
-                      + str(self.seconds_to_str(self.get_evn_time()))+ '\n')
+            res.write('选择的hotspot: ' + str(hotspot_num) + '  等待时间: ' + str(staying_time)
+                      + '  得到的reward: ' + str(reward) + '  执行action后的时间: '
+                      + str(self.seconds_to_str(self.get_evn_time()))
+                      + '  充电的sensor: ' + str(self.hotspot_sensors)
+                      + '\n')
         return observation, reward, done, phase
 
     # 初始化整个环境
@@ -411,12 +422,12 @@ class Env:
 
         state__, reward_, done_, phase = self.step(action)
         # ################   写入action到文件 使用  ##########################
-        hotspot_num = action[0]
-        staying_time = action[1]
-        with open('result.txt', 'a') as res:
-            res.write('初始化选择的hotspot:  ' + str(hotspot_num) + '     等待时间:    ' + str(staying_time)
-                      + '       得到的reward:      ' + str(reward_) + '        执行action后的时间：  '
-                      + str(self.seconds_to_str(self.get_evn_time())) + '\n')
+        # hotspot_num = action[0]
+        # staying_time = action[1]
+        # with open('result.txt', 'a') as res:
+        #     res.write('初始化选择的hotspot: ' + str(hotspot_num) + '  等待时间: ' + str(staying_time)
+        #               + '  得到的reward: ' + str(reward_) + '  执行action后的时间: '
+        #               + str(self.seconds_to_str(self.get_evn_time())) + '\n')
         ###########################################################
         return state__, reward_, done_, phase
 
