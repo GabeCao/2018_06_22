@@ -96,6 +96,8 @@ class Env:
     # 传入一个action, 得到下一个state，reward，和 done(是否回合结束)的信息
     def step(self, action):
         reward = 0
+        self.last_time_mc_move_energy_consumption = 0
+        self.last_time_mc_charging_energy_consumption = 0
         # action 的 表示形如 43,1 表示到43 号hotspot 等待1个t
         # action = action.split(',')
         # 得到hotspot 的编号
@@ -108,15 +110,12 @@ class Env:
         hotspot_num = action[0]
         staying_time = action[1]
 
-        with open('result.txt', 'a') as res:
-            res.write('选择的hotspot:  ' + str(hotspot_num) + '     等待时间:    ' + str(staying_time) + '\n')
-
         # 得到下一个hotspot
         hotspot = self.find_hotspot_by_num(hotspot_num)
         # 当前hotspot 和 下一个hotspot间的距离,得到移动花费的时间，添加到self.move_time 里
         distance = hotspot.get_distance_between_hotspot(self.current_hotspot)
         time = distance / self.speed
-        # self.move_time += time
+        self.move_time += time
 
         for key, value in self.sensors_mobile_charger.items():
             if key == 'MC':
@@ -141,24 +140,28 @@ class Env:
         self.current_hotspot = hotspot
         # 更新mc 移动消耗的能量
         self.mc_move_energy_consumption += self.sensors_mobile_charger['MC'][1] * distance
-        self.last_time_mc_move_energy_consumption = self.sensors_mobile_charger['MC'][1] * distance
+        # 最后一次移动花费的能量，下面两行结果一行，因为mc 在一个action 只会移动一次
+        # self.last_time_mc_move_energy_consumption = self.sensors_mobile_charger['MC'][1] * distance
+        self.last_time_mc_move_energy_consumption += self.sensors_mobile_charger['MC'][1] * distance
         # 更新mc的剩余能量，减去移动消耗的能量
         self.sensors_mobile_charger['MC'][0] = self.sensors_mobile_charger['MC'][0] \
                                                - self.sensors_mobile_charger['MC'][1] * distance
 
-        # 获取当前时间段,下面的path中使用，加8是因为从8点开始
+        # 获取当前时间段,下面的path中使用，加1是因为从时间段1开始
         start_wait_seconds = self.get_evn_time()
         hour = int(start_wait_seconds / 1200) + 1
         # 将在hotspot_num 等待的时间 添加到state中的CS
         self.state[2 * (hotspot_num - 1)] += 1
         self.state[2 * (hotspot_num - 1) + 1] += staying_time
         # mc 结束等待后环境的时间
-        self.move_time += time
         end_wait_seconds = self.get_evn_time()
         # 在一次执行action 的过程中，sensor只能被充电一次
         self.initial_is_charged()
-
-        path = 'hotspot中sensor的访问情况/' + str(hour) + '时间段/' + str(hotspot_num) + '.txt'
+        # 在最后一个时间段，比如21:55:00，mc 移动以后，可能会到达22点以后，这样计算出的时间段会大于42，
+        # 直接进行下一步会抛出异常，这时 hour=42，当作是第42个时间段，return 返回的state_i+1 是terminal ,done 是 true
+        if hour > 42:
+            hour = 42
+        path = 'hotspot中sensor的访问情况(greedy)/' + str(hour) + '时间段/' + str(hotspot_num) + '.txt'
         # 读取文件，得到在当前时间段，hotspot_num 的访问情况，用字典保存。key: sensor 编号；value: 访问次数
         hotspot_num_sensor_arrived_times = {}
         with open(path) as f:
@@ -281,7 +284,7 @@ class Env:
                             elif 0 < rl < 2 * 3600:
                                 # 更新mc 的sensor充的电量
                                 self.mc_charging_energy_consumption += 6 * 1000 - sensor_reserved_energy
-                                self.last_time_mc_charging_energy_consumption = 6 * 1000 - sensor_reserved_energy
+                                self.last_time_mc_charging_energy_consumption += 6 * 1000 - sensor_reserved_energy
                                 # mc 给该sensor充电， 充电后更新剩余能量
                                 self.sensors_mobile_charger['MC'][0] = self.sensors_mobile_charger['MC'][0] \
                                                                        - (6 * 1000 - sensor_reserved_energy)
@@ -295,12 +298,13 @@ class Env:
                                 rl = rl / 3600
                                 reward += math.exp(-rl)
                             else:
-                                # 如果是第一次死
+                                # 如果是第一次死，然后直接跳出循环
                                 if sensor[3] is True:
                                     sensor[3] = False
                                     reward += self.charging_penalty
                                     with open('result.txt', 'a') as res:
                                         res.write('sensor   ' + str(i) + '  死了  ' + '\n')
+                                    break
 
                 # 取出sensor
                 sensor = self.sensors_mobile_charger[str(i)]
@@ -385,6 +389,9 @@ class Env:
             done = False
 
         observation = np.array(self.state)
+        with open('result.txt', 'a') as res:
+            res.write('选择的hotspot:  ' + str(hotspot_num) + '     等待时间:    ' + str(staying_time)
+                      + '       得到的reward:      ' + str(reward) + '\n')
         return observation, reward, done, phase
 
     # 初始化整个环境
@@ -398,9 +405,18 @@ class Env:
         # 得到一个随机的8点时间段的action,例如 43,1 表示到43 号hotspot 等待1个t
         # print(len(self.state))
         action = RL.random_action()
+
         self.current_hotspot = self.hotspots[0]
 
         state__, reward_, done_, phase = self.step(action)
+        # ################   写入action到文件 使用  ##########################
+        hotspot_num = action[0]
+        staying_time = action[1]
+        with open('result.txt', 'a') as res:
+            res.write('初始化选择的hotspot:  ' + str(hotspot_num) + '     等待时间:    ' + str(staying_time)
+                      + '       得到的reward:      ' + str(reward_) + ' 执行action后的时间：  '
+                      + str(self.seconds_to_str(self.get_evn_time())) + '\n')
+        ###########################################################
         return state__, reward_, done_, phase
 
     # 传入时间字符串，如：09：02：03，转化成与 08:00:00 间的秒数差
@@ -410,6 +426,13 @@ class Env:
         minute = int(data[1])
         second = int(data[2])
         return hour * 3600 + minute * 60 + second
+
+    def seconds_to_str(self, seconds):
+        hour = int(seconds / 3600)
+        minute = int((seconds - 3600 * hour) / 60)
+        second = int(seconds - hour * 3600 - minute * 60)
+        present_time = str(hour + 8) + ':' + str(minute) + ':' + str(second)
+        return present_time
 
     # 获得当前环境的秒
     def get_evn_time(self):
