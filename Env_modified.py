@@ -391,7 +391,8 @@ class Env:
         observation = np.array(self.state)
         with open('result.txt', 'a') as res:
             res.write('选择的hotspot:  ' + str(hotspot_num) + '     等待时间:    ' + str(staying_time)
-                      + '       得到的reward:      ' + str(reward) + '\n')
+                      + '       得到的reward:      ' + str(reward) + ' 执行action后的时间：  '
+                      + str(self.seconds_to_str(self.get_evn_time()))+ '\n')
         return observation, reward, done, phase
 
     # 初始化整个环境
@@ -414,7 +415,7 @@ class Env:
         staying_time = action[1]
         with open('result.txt', 'a') as res:
             res.write('初始化选择的hotspot:  ' + str(hotspot_num) + '     等待时间:    ' + str(staying_time)
-                      + '       得到的reward:      ' + str(reward_) + ' 执行action后的时间：  '
+                      + '       得到的reward:      ' + str(reward_) + '        执行action后的时间：  '
                       + str(self.seconds_to_str(self.get_evn_time())) + '\n')
         ###########################################################
         return state__, reward_, done_, phase
