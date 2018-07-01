@@ -179,9 +179,72 @@ class Env:
             # 取出当前sensor 访问 hotspot_num 的次数,如果大于 0, 则belong = 1, 表示属于，sensor 可能会到达这个hotspot 。
             # 否则0，表示不属于，sensor 不可能会到达这个hotspot
             times = int(hotspot_num_sensor_arrived_times[str(i)])
-            # times == 0，表示该sensor不属于该hotspot，不可能到达该hotspot充电
+            # times == 0，表示该sensor不属于该hotspot，之前错误认为不可能到达该hotspot充电，实际上也可能在下一个时间段到达
             if times == 0:
                 belong = str(0)
+                # 读取第i 个sensor 的轨迹点信息
+                sensor_path = 'sensor数据五秒/' + str(i) + '.txt'
+                with open(sensor_path) as f:
+                    for point_line in f:
+                        # 检查当前sensor 是否在该hotspot 已经被充过电了，如果是，跳出循环
+                        sensor_is_charged = self.sensors_mobile_charger[str(i)]
+                        if sensor_is_charged[4] is True:
+                            break
+
+                        data = point_line.strip().split(',')
+                        point_time = self.str_to_seconds(data[2])
+                        point = Point(float(data[0]), float(data[1]), data[2])
+
+                        # 如果第 i 个sensor的轨迹点的时间 小于end_wait_seconds且大于start_wait_seconds，
+                        # 同时轨迹点和hotspot 的距离小于60，则到达该hotspot
+                        if (start_wait_seconds <= point_time <= end_wait_seconds) and (
+                                point.get_distance_between_point_and_hotspot(self.current_hotspot) < 60):
+
+                            # 取出sensor
+                            sensor = self.sensors_mobile_charger[str(i)]
+                            # 上一次充电后的电量
+                            sensor_energy_after_last_time_charging = sensor[0]
+                            # 当前sensor 电量消耗的速率
+                            sensor_consumption_ratio = sensor[1]
+                            # 上一次的充电时间
+                            previous_charging_time = sensor[2]
+                            # 当前sensor 的剩余电量
+                            sensor_reserved_energy = sensor_energy_after_last_time_charging - \
+                                                     (point_time - previous_charging_time) * sensor_consumption_ratio
+                            # 当前sensor 的剩余寿命
+                            rl = sensor_reserved_energy / sensor_consumption_ratio
+                            # 如果剩余寿命大于两个小时
+                            if rl >= 2 * 3600:
+                                reward += 0
+                            # 如果剩余寿命在0 到 两个小时
+                            elif 0 < rl < 2 * 3600:
+
+                                # 更新mc 的sensor充的电量
+                                self.mc_charging_energy_consumption += 6 * 1000 - sensor_reserved_energy
+                                self.last_time_mc_charging_energy_consumption += 6 * 1000 - sensor_reserved_energy
+                                # mc 给该sensor充电， 充电后更新剩余能量
+                                self.sensors_mobile_charger['MC'][0] = self.sensors_mobile_charger['MC'][0] \
+                                                                       - (6 * 1000 - sensor_reserved_energy)
+                                # 设置sensor 充电后的剩余能量 是满能量
+                                sensor[0] = 6 * 1000
+                                # 更新被充电的时间
+                                sensor[2] = point_time
+                                # sensor 被充电了
+                                sensor[4] = True
+                                # 加上得到的奖励,需要先将 rl 的单位先转化成小时
+                                rl = rl / 3600
+                                reward += math.exp(-rl)
+                                self.hotspot_sensors.append(str(i))
+                                self.hotspot_sensors.append(math.exp(-rl))
+                            else:
+                                # 如果是第一次死，然后直接跳出循环
+                                if sensor[3] is True:
+                                    sensor[3] = False
+                                    reward += self.charging_penalty
+                                    with open('result.txt', 'a') as res:
+                                        res.write('mc 等待sensor时   ' + str(i) + '  死了    action: ' + str_action + '\n')
+                                    break
+
                 # 取出sensor
                 sensor = self.sensors_mobile_charger[str(i)]
                 # 上一次充电后的电量
@@ -417,7 +480,6 @@ class Env:
         # 得到一个随机的8点时间段的action,例如 43,1 表示到43 号hotspot 等待1个t
         # print(len(self.state))
         action = RL.random_action()
-
         self.current_hotspot = self.hotspots[0]
 
         state__, reward_, done_, phase = self.step(action)
