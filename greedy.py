@@ -314,6 +314,7 @@ class Greedy:
                                     res.write('reward:  ' + str(math.exp(-rl)) + '\n')
                                 self.reward += math.exp(-rl)
                                 self.current_reward += math.exp(-rl)
+                                break
                             else:
                                 if sensor[3] is True:
                                     with open(self.out_put_file, 'a') as res:
@@ -321,6 +322,7 @@ class Greedy:
                                     self.reward += self.charging_penalty
                                     self.current_reward += self.charging_penalty
                                     sensor[3] = False
+                                    break
 
             # action结束，判断环境中的sensor 是否有死掉的
             for key, value in self.sensors_mobile_charger.items():

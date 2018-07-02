@@ -217,7 +217,7 @@ class NewGreedy:
                     point_time = self.str_to_seconds(point.get_time())
 
                     if start_seconds <= point_time <= end_seconds and point.get_distance_between_point_and_hotspot(
-                            self.current_hotspot) < 60:
+                            next_hotspot) < 60:
                         # 取出sensor
                         sensor = self.sensors_mobile_charger[str(i)]
                         # 上一次充电后的电量
@@ -238,9 +238,9 @@ class NewGreedy:
                         elif 0 < rl < 2 * 3600:
                             # 加上得到的奖励,需要先将 rl 的单位先转化成小时
                             rl = rl / 3600
-                            self.expected_reward += \
-                                self.probability_T(current_slot, staying_time, str(i), next_hotspot.get_num()) \
-                                * math.exp(-rl)
+                            probability = self.probability_T(current_slot, staying_time, str(i), next_hotspot.get_num())
+                            self.expected_reward += probability * math.exp(-rl)
+                            break
                         else:
                             if sensor[3] is True:
                                 self.expected_reward += self.charging_penalty
@@ -265,6 +265,7 @@ class NewGreedy:
 
         # 计算得到的真实奖励
         # 到达hotspot后，开始等待，mc减去移动消耗的能量，并更新当前属于的hotspot
+        self.initial_is_charged()
         self.move_time += distance / self.speed
         start_seconds = self.get_evn_time()
         self.mc_move_energy_consumption += self.sensors_mobile_charger['MC'][1] * distance
@@ -328,12 +329,14 @@ class NewGreedy:
                             self.reward += math.exp(-rl)
                             self.actual_reward += math.exp(-rl)
                             self.current_charging_sensors.append(str(i))
+                            break
                         else:
                             if sensor[3] is True:
                                 self.reward += self.charging_penalty
                                 self.actual_reward += self.charging_penalty
                                 sensor[3] = False
                                 self.current_dead_sensors.append(str(i))
+                                break
 
         # 判断环境中的sensor 是否有死掉的
         for key, value in self.sensors_mobile_charger.items():
@@ -357,8 +360,6 @@ class NewGreedy:
 
     # 根据当前环境，返回得到最大reward的action，即得到greedy的action
     def get_an_action_after_steps(self):
-        # for action in action_list:
-        #     self.one_step(action)
         # 获取当前时间段
         current_slot = int(self.get_evn_time() / 1200) + 1
         path = '20minutes/' + str(current_slot) + '.txt'
@@ -420,9 +421,11 @@ class NewGreedy:
                                     chose_reward += self.probability_T(current_slot, max_staying_time, str(i),
                                                                        hotspot.get_num()) \
                                                     * math.exp(-rl)
+                                    break
                                 else:
                                     if sensor[3] is True:
                                         chose_reward += self.charging_penalty
+                                        break
 
                 # 判断环境中的sensor 是否有死掉的
                 for key, value in self.sensors_mobile_charger.items():
@@ -539,6 +542,8 @@ if __name__ == '__main__':
             rl_actions.append(line)
     # 建立一个rl_new_greedy 的环境，用于执行rl 的action
     rl_new_greedy = NewGreedy()
+    i = 1
+    total_reward = 0
     for action in rl_actions:
         # 得到在当前环境下最大的reward 的action
         greedy_acttion = rl_new_greedy.get_an_action_after_steps()
@@ -551,14 +556,14 @@ if __name__ == '__main__':
         rl_new_greedy.one_step(action)
         with open('C:/Users/Admin/Desktop/res/3_每个sensor的独⽴最⼤等待时间及hotspot最⼤等待时间⽂件.txt', 'a') as f:
             f.write('########################' + '\n')
-            f.write('action ' + action + '\n')
+            f.write('action_' + str(i) + '    ' + action + '\n')
 
             res = rl_new_greedy.get_max_staying_time()
             for key, value in res.items():
                 f.write(key + ',' + str(value) + '\n')
         with open('C:/Users/Admin/Desktop/res/4_sensor的剩余能量.txt', 'a') as f:
             f.write('########################' + '\n')
-            f.write('action ' + action + '\n')
+            f.write('action_' + str(i) + '    ' + action + '\n')
 
             res = rl_new_greedy.get_sensors_residual_energy()
             for key, value in res.items():
@@ -566,7 +571,7 @@ if __name__ == '__main__':
 
         with open('C:/Users/Admin/Desktop/res/5_记录每⼀步的action.txt', 'a') as f:
             f.write('########################' + '\n')
-            f.write('action ' + action + '\n')
+            f.write('action_' + str(i) + '    ' + action + '\n')
             f.write('hotspot,' + str(rl_new_greedy.current_hotspot.get_num()) + ':'
                     + str(greedy_new_greedy.current_hotspot.get_num()) + '\n')
 
@@ -582,5 +587,7 @@ if __name__ == '__main__':
                     + str(greedy_new_greedy.current_charging_sensors) + '\n')
             f.write('dead sensors,' + str(rl_new_greedy.current_dead_sensors) + ':'
                     + str(greedy_new_greedy.current_dead_sensors) + '\n')
-
+            i += 1
+            total_reward += rl_new_greedy.actual_reward
     print(rl_new_greedy.reward)
+    print(total_reward)
